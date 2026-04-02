@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Ashutosh Kumar – Full-Stack Software Engineer specializing in fintech backend systems, Node.js, TypeScript, and MySQL. Based in Bengaluru, India." />
+  <meta name="keywords" content="Ashutosh Kumar, Full-Stack Developer, Software Engineer, Node.js, TypeScript, Fintech, Bengaluru" />
+  <meta name="author" content="Ashutosh Kumar" />
+  <meta property="og:title" content="Ashutosh Kumar | Full-Stack Software Engineer" />
+  <meta property="og:description" content="Portfolio of Ashutosh Kumar – Fintech backend engineer skilled in Node.js, TypeScript, MySQL, and Angular." />
+  <title>Ashutosh Kumar | Full-Stack Software Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Particle Canvas Background -->
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- Navigation -->
+  <nav id="navbar" class="navbar">
+    <div class="nav-container">
+      <a href="#hero" class="nav-logo">
+        <span class="logo-bracket">&lt;</span>AK<span class="logo-bracket">/&gt;</span>
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#experience" class="nav-link">Experience</a></li>
+        <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#education" class="nav-link">Education</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button id="theme-toggle" class="theme-btn" aria-label="Toggle theme">
+          <i class="fas fa-moon" id="theme-icon"></i>
+        </button>
+        <a href="Ashutosh_Kumar_Resume.pdf" download="Ashutosh_Kumar_Resume.pdf" class="btn btn-primary btn-sm" id="nav-resume-btn">
+          <i class="fas fa-download"></i> Resume
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobile-menu">
+    <ul>
+      <li><a href="#about" class="mobile-link">About</a></li>
+      <li><a href="#experience" class="mobile-link">Experience</a></li>
+      <li><a href="#skills" class="mobile-link">Skills</a></li>
+      <li><a href="#projects" class="mobile-link">Projects</a></li>
+      <li><a href="#education" class="mobile-link">Education</a></li>
+      <li><a href="#contact" class="mobile-link">Contact</a></li>
+      <li><a href="Ashutosh_Kumar_Resume.pdf" download="Ashutosh_Kumar_Resume.pdf" class="mobile-link mobile-resume"><i class="fas fa-download"></i> Download Resume</a></li>
+    </ul>
+  </div>
+
+  <!-- Hero Section -->
+  <section id="hero" class="hero">
+    <div class="hero-bg-gradient"></div>
+
+    <!-- Floating tech icons -->
+    <div class="hero-float-icons" aria-hidden="true">
+      <div class="float-icon fi-1"><i class="fab fa-node-js"></i></div>
+      <div class="float-icon fi-2"><i class="fab fa-js-square"></i></div>
+      <div class="float-icon fi-3"><i class="fas fa-database"></i></div>
+      <div class="float-icon fi-4"><i class="fab fa-github"></i></div>
+      <div class="float-icon fi-5"><i class="fab fa-angular"></i></div>
+      <div class="float-icon fi-6"><i class="fab fa-aws"></i></div>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-badge reveal">
+        <span class="badge-dot"></span>
+        Available for opportunities
+      </div>
+
+      <div class="hero-intro reveal">
+        <span class="hero-greeting">Hello, I'm</span>
+        <h1 class="hero-name">Ashutosh Kumar</h1>
+        <div class="hero-role-line">
+          <h2 class="hero-role"><span id="typed-text"></span><span class="cursor-blink">|</span></h2>
+        </div>
+      </div>
+
+      <div class="hero-taglines reveal">
+        <p class="hero-tagline-main">Specializing in <span class="text-accent">fintech backend systems</span></p>
+        <p class="hero-tagline-sub">Building scalable Loan Management Systems &amp; payment integrations across financial APIs</p>
+      </div>
+
+      <div class="hero-location reveal">
+        <i class="fas fa-map-marker-alt"></i>
+        <span>Bengaluru, India</span>
+      </div>
+
+      <div class="hero-cta reveal">
+        <a href="#projects" class="btn btn-primary" id="hero-view-projects">
+          <i class="fas fa-code"></i> View My Work
+        </a>
+        <a href="#contact" class="btn btn-outline" id="hero-contact">
+          <i class="fas fa-paper-plane"></i> Contact Me
+        </a>
+        <a href="Ashutosh_Kumar_Resume.pdf" download="Ashutosh_Kumar_Resume.pdf" class="btn btn-ghost" id="hero-resume-btn">
+          <i class="fas fa-download"></i> Download Resume
+        </a>
+      </div>
+
+      <!-- Improved Stats Cards -->
+      <div class="hero-stats reveal" id="hero-stats">
+        <div class="stat-card">
+          <div class="stat-card-icon"><i class="fas fa-briefcase"></i></div>
+          <div class="stat-card-body">
+            <span class="stat-number" data-target="1" data-suffix="+">1+</span>
+            <span class="stat-label">Year Industry Experience</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon"><i class="fas fa-plug"></i></div>
+          <div class="stat-card-body">
+            <span class="stat-number" data-target="10" data-suffix="+">10+</span>
+            <span class="stat-label">Financial API Integrations</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon"><i class="fas fa-satellite-dish"></i></div>
+          <div class="stat-card-body">
+            <span class="stat-number" data-target="30" data-suffix="+">30+</span>
+            <span class="stat-label">Production API Endpoints</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-scroll">
+      <div class="scroll-indicator">
+        <div class="scroll-dot"></div>
+      </div>
+      <span>Scroll Down</span>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="section about-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">01. About Me</span>
+        <h2 class="section-title">Who I Am</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="about-grid">
+        <div class="about-avatar-col reveal">
+          <div class="avatar-wrapper">
+            <div class="avatar-ring"></div>
+            <div class="avatar-inner">
+              <span class="avatar-initials">AK</span>
+            </div>
+            <div class="avatar-badge">
+              <i class="fab fa-node-js"></i>
+            </div>
+          </div>
+          <div class="about-contacts">
+            <a href="mailto:ashutoshkumar8701@gmail.com" class="contact-chip">
+              <i class="fas fa-envelope"></i>
+              ashutoshkumar8701@gmail.com
+            </a>
+            <a href="tel:+918797994427" class="contact-chip">
+              <i class="fas fa-phone"></i>
+              +91-8797994427
+            </a>
+            <a href="https://linkedin.com/in/ashutosh-kumar-21" target="_blank" rel="noopener" class="contact-chip">
+              <i class="fab fa-linkedin-in"></i>
+              linkedin.com/in/ashutosh-kumar-21
+            </a>
+            <a href="https://github.com/ashutoshkumar021" target="_blank" rel="noopener" class="contact-chip">
+              <i class="fab fa-github"></i>
+              github.com/ashutoshkumar021
+            </a>
+          </div>
+        </div>
+        <div class="about-content reveal">
+          <p class="about-text">
+            I'm a <strong>Full-Stack Software Engineer</strong> with 1+ year of professional experience
+            specializing in backend systems for production-grade <strong>fintech applications</strong>.
+          </p>
+          <p class="about-text">
+            I've built and maintained <strong>Loan Management Systems</strong>, developed lending partner
+            integrations, and payment gateway workflows covering the full loan lifecycle — from applicant
+            onboarding to repayment closure.
+          </p>
+          <p class="about-text">
+            Hands-on experience integrating third-party financial APIs including
+            <strong>Razorpay, AU Small Finance Bank, Godrej Finance,</strong> and
+            <strong>Credit Saison</strong>. Proficient in Node.js, Express.js, TypeScript, and MySQL
+            on the backend; Angular and React.js on the frontend.
+          </p>
+          <div class="about-highlights">
+            <div class="highlight-item">
+              <i class="fas fa-check-circle"></i>
+              <span>Loan Lifecycle Engineering</span>
+            </div>
+            <div class="highlight-item">
+              <i class="fas fa-check-circle"></i>
+              <span>Fintech API Integrations</span>
+            </div>
+            <div class="highlight-item">
+              <i class="fas fa-check-circle"></i>
+              <span>Payment Gateway Workflows</span>
+            </div>
+            <div class="highlight-item">
+              <i class="fas fa-check-circle"></i>
+              <span>Production-Grade Systems</span>
+            </div>
+          </div>
+          <div class="about-actions">
+            <a href="https://linkedin.com/in/ashutosh-kumar-21" target="_blank" rel="noopener" class="btn btn-outline btn-sm">
+              <i class="fab fa-linkedin-in"></i> LinkedIn
+            </a>
+            <a href="https://github.com/ashutoshkumar021" target="_blank" rel="noopener" class="btn btn-outline btn-sm">
+              <i class="fab fa-github"></i> GitHub
+            </a>
+            <a href="Ashutosh_Kumar_Resume.pdf" download="Ashutosh_Kumar_Resume.pdf" class="btn btn-primary btn-sm">
+              <i class="fas fa-download"></i> Resume
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience Section -->
+  <section id="experience" class="section experience-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">02. Experience</span>
+        <h2 class="section-title">Work History</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="timeline">
+
+        <!-- Job 1 -->
+        <div class="timeline-item reveal">
+          <div class="timeline-dot">
+            <i class="fas fa-briefcase"></i>
+          </div>
+          <div class="timeline-card">
+            <div class="timeline-header">
+              <div>
+                <h3 class="job-title">Software Engineer</h3>
+                <div class="job-company">
+                  <span class="company-name">TechFino Capital Pvt Ltd</span>
+                  <span class="company-location"><i class="fas fa-map-marker-alt"></i> Bengaluru, Karnataka</span>
+                </div>
+              </div>
+              <div class="job-duration">
+                <span class="duration-badge current">Nov 2024 – Present</span>
+                <span class="duration-type">Full-time · Fintech</span>
+              </div>
+            </div>
+            <ul class="job-bullets">
+              <li>Designed and maintained a multi-product <strong>Loan Management System</strong> supporting Education (B2B2C) and MSME (B2C) lending, handling the complete loan lifecycle from applicant onboarding to repayment closure.</li>
+              <li>Built end-to-end integrations with <strong>Godrej Finance Limited</strong> and <strong>Credit Saison</strong> using REST APIs, covering loan application sync, approval callbacks, disbursement triggers, and EMI reconciliation.</li>
+              <li>Integrated <strong>AU Small Finance Bank</strong> APIs for virtual account management, payment processing, reconciliation, and automated repayment matching, significantly reducing manual reconciliation effort.</li>
+              <li>Architected a <strong>centralized configuration module</strong> to manage product rules, partner-specific parameters, and workflow flags — eliminating code deployments for routine business configuration changes.</li>
+              <li>Built an <strong>automated bulk employee data ingestion system</strong> via email-based file processing, reducing HR data upload effort by 85% and eliminating manual data entry errors.</li>
+              <li>Implemented <strong>real-time bank account verification</strong> and NACH mandate registration using <strong>Razorpay API</strong>, ensuring validated and secure disbursement flows for every loan account.</li>
+              <li>Developed an <strong>automated SMS reminder system</strong> for overdue EMI accounts, improving repayment follow-up efficiency and collection pipeline hygiene.</li>
+              <li>Maintained <strong>Postman collections</strong> with environment-based configurations for 30+ API endpoints, enabling faster QA cycles and seamless partner onboarding testing.</li>
+            </ul>
+            <div class="tech-stack">
+              <span class="tech-tag">Node.js</span>
+              <span class="tech-tag">Express.js</span>
+              <span class="tech-tag">TypeScript</span>
+              <span class="tech-tag">MySQL</span>
+              <span class="tech-tag">Razorpay API</span>
+              <span class="tech-tag">AU Bank API</span>
+              <span class="tech-tag">REST APIs</span>
+              <span class="tech-tag">AWS EC2</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Job 2 -->
+        <div class="timeline-item reveal">
+          <div class="timeline-dot secondary">
+            <i class="fas fa-laptop-code"></i>
+          </div>
+          <div class="timeline-card">
+            <div class="timeline-header">
+              <div>
+                <h3 class="job-title">Frontend Developer Intern</h3>
+                <div class="job-company">
+                  <span class="company-name">Numeric Infosystem Pvt Ltd</span>
+                  <span class="company-location"><i class="fas fa-map-marker-alt"></i> Gwalior, Madhya Pradesh</span>
+                </div>
+              </div>
+              <div class="job-duration">
+                <span class="duration-badge">May 2022 – Aug 2022</span>
+                <span class="duration-type">Internship · Frontend</span>
+              </div>
+            </div>
+            <ul class="job-bullets">
+              <li>Built production-ready <strong>Angular + TypeScript</strong> frontend features for a US-based enterprise client, delivering reusable components with <strong>90%+ unit test coverage</strong> using Jasmine and Karma.</li>
+              <li>Owned REST API integration end-to-end — designed service layers, mapped response models, and debugged cross-layer data flow issues in collaboration with the backend team.</li>
+              <li>Followed Agile sprint workflows, participated in peer code reviews, and maintained component-level documentation to support team onboarding.</li>
+            </ul>
+            <div class="tech-stack">
+              <span class="tech-tag">Angular</span>
+              <span class="tech-tag">TypeScript</span>
+              <span class="tech-tag">REST APIs</span>
+              <span class="tech-tag">Jasmine</span>
+              <span class="tech-tag">Karma</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section id="skills" class="section skills-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">03. Skills</span>
+        <h2 class="section-title">Technical Arsenal</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="skills-grid">
+
+        <!-- Languages -->
+        <div class="skill-category reveal">
+          <div class="skill-cat-header">
+            <div class="skill-cat-icon"><i class="fas fa-code"></i></div>
+            <h3>Languages</h3>
+          </div>
+          <div class="skill-items">
+            <div class="skill-item">
+              <div class="skill-info">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" class="skill-icon-img" />
+                <span>JavaScript</span>
+                <span class="skill-pct">92%</span>
+              </div>
+              <div class="skill-bar"><div class="skill-fill" data-width="92"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt="TypeScript" class="skill-icon-img" />
+                <span>TypeScript</span>
+                <span class="skill-pct">88%</span>
+              </div>
+              <div class="skill-bar"><div class="skill-fill" data-width="88"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" class="skill-icon-img" />
+                <span>Python</span>
+                <span class="skill-pct">72%</span>
+              </div>
+              <div class="skill-bar"><div class="skill-fill" data-width="72"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="SQL" class="skill-icon-img" />
+                <span>SQL</span>
+                <span class="skill-pct">85%</span>
+              </div>
+              <div class="skill-bar"><div class="skill-fill" data-width="85"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Backend -->
+        <div class="skill-category reveal">
+          <div class="skill-cat-header">
+            <div class="skill-cat-icon"><i class="fas fa-server"></i></div>
+            <h3>Backend</h3>
+          </div>
+          <div class="skill-items">
+            <div class="skill-item">
+              <div class="skill-info">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js" class="skill-icon-img" />
+                <span>Node.js</span>
+                <span class="skill-pct">90%</span>
+              </div>
+              <div class="skill-bar"><div class="skill-fill" data-width="90"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" alt="Express.js" class="skill-icon-img" />
+                <span>Express.js</span>
+                <span class="skill-pct">88%</span>
+              </div>
+              <div class="skill-bar"><div class="skill-fill" data-width="88"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg" alt="FastAPI" class="skill-icon-img" />
+                <span>FastAPI</span>
+                <span class="skill-pct">68%</span>
+              </div>
+              <div class="skill-bar"><div class="skill-fill" data-width="68"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <i class="fas fa-plug skill-icon-fa"></i>
+                <span>REST APIs / Webhooks</span>
+                <span class="skill-pct">92%</span>
+              </div>
+              <div class="skill-bar"><div class="skill-fill" data-width="92"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Frontend -->
+        <div class="skill-category reveal">
+          <div class="skill-cat-header">
+            <div class="skill-cat-icon"><i class="fas fa-palette"></i></div>
+            <h3>Frontend</h3>
+          </div>
+          <div class="skill-items">
+            <div class="skill-item">
+              <div class="skill-info">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angularjs/angularjs-original.svg" alt="Angular" class="skill-icon-img" />
+                <span>Angular</span>
+                <span class="skill-pct">82%</span>
+              </div>
+              <div class="skill-bar"><div class="skill-fill" data-width="82"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React.js" class="skill-icon-img" />
+                <span>React.js</span>
+                <span class="skill-pct">72%</span>
+              </div>
+              <div class="skill-bar"><div class="skill-fill" data-width="72"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Database & Tools -->
+        <div class="skill-category reveal">
+          <div class="skill-cat-header">
+            <div class="skill-cat-icon"><i class="fas fa-database"></i></div>
+            <h3>Database &amp; Tools</h3>
+          </div>
+          <div class="skill-items">
+            <div class="skill-item">
+              <div class="skill-info">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL" class="skill-icon-img" />
+                <span>MySQL</span>
+                <span class="skill-pct">85%</span>
+              </div>
+              <div class="skill-bar"><div class="skill-fill" data-width="85"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" class="skill-icon-img" />
+                <span>Git</span>
+                <span class="skill-pct">83%</span>
+              </div>
+              <div class="skill-bar"><div class="skill-fill" data-width="83"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" alt="AWS" class="skill-icon-img" />
+                <span>AWS (EC2, S3)</span>
+                <span class="skill-pct">65%</span>
+              </div>
+              <div class="skill-bar"><div class="skill-fill" data-width="65"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <i class="fas fa-vial skill-icon-fa"></i>
+                <span>Postman</span>
+                <span class="skill-pct">90%</span>
+              </div>
+              <div class="skill-bar"><div class="skill-fill" data-width="90"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tech Badges -->
+      <div class="tech-badges reveal">
+        <span class="badge-pill">Node.js</span>
+        <span class="badge-pill">TypeScript</span>
+        <span class="badge-pill">MySQL</span>
+        <span class="badge-pill">Express.js</span>
+        <span class="badge-pill">Angular</span>
+        <span class="badge-pill">React.js</span>
+        <span class="badge-pill">FastAPI</span>
+        <span class="badge-pill">REST APIs</span>
+        <span class="badge-pill">Webhooks</span>
+        <span class="badge-pill">Razorpay</span>
+        <span class="badge-pill">AWS EC2</span>
+        <span class="badge-pill">AWS S3</span>
+        <span class="badge-pill">Git</span>
+        <span class="badge-pill">Postman</span>
+        <span class="badge-pill">Python</span>
+        <span class="badge-pill">SQL</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="section projects-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">04. Projects</span>
+        <h2 class="section-title">Featured Work</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="projects-grid">
+
+        <!-- Project 1 -->
+        <div class="project-card reveal">
+          <div class="project-card-glow"></div>
+          <div class="project-top">
+            <div class="project-icon-wrap">
+              <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/ashutoshkumar021" target="_blank" rel="noopener" title="View on GitHub" aria-label="GitHub" class="project-link-btn">
+                <i class="fab fa-github"></i>
+                <span class="project-link-tooltip">GitHub</span>
+              </a>
+              <a href="https://github.com/ashutoshkumar021" target="_blank" rel="noopener" title="Live Demo" aria-label="Live Demo" class="project-link-btn">
+                <i class="fas fa-external-link-alt"></i>
+                <span class="project-link-tooltip">Live Demo</span>
+              </a>
+            </div>
+          </div>
+          <h3 class="project-title">Learning Management System</h3>
+          <p class="project-subtitle">with Online Exam Module</p>
+          <p class="project-desc">
+            A full-stack LMS with <strong>role-based access control</strong> (Admin, Staff, Student)
+            supporting course management, assignment scheduling, and an auto-graded online exam module.
+            Includes <strong>JWT authentication</strong>, deadline tracking with automated email/SMS
+            notifications, and a secure file upload/download system.
+          </p>
+          <div class="project-features">
+            <span><i class="fas fa-shield-alt"></i> Role-Based Access</span>
+            <span><i class="fas fa-clock"></i> Deadline Tracking</span>
+            <span><i class="fas fa-file-upload"></i> File Management</span>
+            <span><i class="fas fa-chart-bar"></i> Auto-Grading</span>
+          </div>
+          <div class="project-stack">
+            <span>Angular</span>
+            <span>Node.js</span>
+            <span>Express.js</span>
+            <span>MySQL</span>
+            <span>JWT</span>
+          </div>
+          <div class="project-footer">
+            <span class="project-date"><i class="fas fa-calendar-alt"></i> Dec 2023 – Apr 2024</span>
+            <a href="https://github.com/ashutoshkumar021" target="_blank" rel="noopener" class="btn btn-ghost btn-xs">
+              <i class="fab fa-github"></i> View Code
+            </a>
+          </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="project-card reveal">
+          <div class="project-card-glow secondary"></div>
+          <div class="project-top">
+            <div class="project-icon-wrap secondary">
+              <i class="fas fa-comments"></i>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/ashutoshkumar021" target="_blank" rel="noopener" title="View on GitHub" aria-label="GitHub" class="project-link-btn">
+                <i class="fab fa-github"></i>
+                <span class="project-link-tooltip">GitHub</span>
+              </a>
+              <a href="https://github.com/ashutoshkumar021" target="_blank" rel="noopener" title="Live Demo" aria-label="Live Demo" class="project-link-btn">
+                <i class="fas fa-external-link-alt"></i>
+                <span class="project-link-tooltip">Live Demo</span>
+              </a>
+            </div>
+          </div>
+          <h3 class="project-title">Real-Time Chat Application</h3>
+          <p class="project-subtitle">Live Messaging Platform</p>
+          <p class="project-desc">
+            A real-time messaging platform using <strong>Firebase Realtime Database</strong> and
+            WebSocket events, supporting one-on-one and group conversations with live delivery status.
+            Implemented <strong>Firebase Authentication</strong> for secure login, session token
+            management, and user profile handling with encrypted message storage.
+          </p>
+          <div class="project-features">
+            <span><i class="fas fa-bolt"></i> Real-Time</span>
+            <span><i class="fas fa-users"></i> Group Chat</span>
+            <span><i class="fas fa-lock"></i> Encrypted</span>
+            <span><i class="fas fa-check-double"></i> Read Receipts</span>
+          </div>
+          <div class="project-stack">
+            <span>JavaScript</span>
+            <span>Firebase</span>
+            <span>WebSocket</span>
+            <span>HTML/CSS</span>
+          </div>
+          <div class="project-footer">
+            <span class="project-date"><i class="fas fa-calendar-alt"></i> Feb 2024 – Mar 2024</span>
+            <a href="https://github.com/ashutoshkumar021" target="_blank" rel="noopener" class="btn btn-ghost btn-xs">
+              <i class="fab fa-github"></i> View Code
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Education Section -->
+  <section id="education" class="section education-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">05. Education</span>
+        <h2 class="section-title">Academic Background</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="education-grid">
+        <div class="edu-card reveal">
+          <div class="edu-icon">
+            <i class="fas fa-university"></i>
+          </div>
+          <div class="edu-content">
+            <h3 class="edu-degree">Bachelor of Technology – Information Technology</h3>
+            <p class="edu-institution">ITM Group of Institutions</p>
+            <p class="edu-location"><i class="fas fa-map-marker-alt"></i> Gwalior, Madhya Pradesh</p>
+            <div class="edu-meta">
+              <span class="edu-years"><i class="fas fa-calendar"></i> July 2020 – June 2024</span>
+              <span class="edu-cgpa">
+                <i class="fas fa-star"></i> CGPA: <strong>8.2 / 10</strong>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Certification -->
+        <div class="edu-card cert reveal">
+          <div class="edu-icon cert-icon">
+            <i class="fab fa-aws"></i>
+          </div>
+          <div class="edu-content">
+            <h3 class="edu-degree">AWS Cloud Virtual Internship</h3>
+            <p class="edu-institution">Amazon Web Services (AWS)</p>
+            <p class="edu-location"><i class="fas fa-certificate"></i> Certification</p>
+            <div class="edu-meta">
+              <span class="edu-years"><i class="fas fa-calendar"></i> July 2023</span>
+              <span class="edu-cgpa cert-badge">
+                <i class="fas fa-cloud"></i> Cloud Computing
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="section contact-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">06. Contact</span>
+        <h2 class="section-title">Let's Connect</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="contact-wrapper reveal">
+        <p class="contact-intro">
+          Currently open to <strong>full-time opportunities</strong> in backend engineering, fintech,
+          and full-stack development. Let's build something great together!
+        </p>
+        <div class="contact-cards">
+          <a href="mailto:ashutoshkumar8701@gmail.com" class="contact-card" id="email-card">
+            <div class="contact-card-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div class="contact-card-info">
+              <span class="contact-card-label">Email</span>
+              <span class="contact-card-value">ashutoshkumar8701@gmail.com</span>
+            </div>
+            <i class="fas fa-arrow-right contact-card-arrow"></i>
+          </a>
+          <a href="https://linkedin.com/in/ashutosh-kumar-21" target="_blank" rel="noopener" class="contact-card" id="linkedin-card">
+            <div class="contact-card-icon linkedin">
+              <i class="fab fa-linkedin-in"></i>
+            </div>
+            <div class="contact-card-info">
+              <span class="contact-card-label">LinkedIn</span>
+              <span class="contact-card-value">linkedin.com/in/ashutosh-kumar-21</span>
+            </div>
+            <i class="fas fa-arrow-right contact-card-arrow"></i>
+          </a>
+          <a href="https://github.com/ashutoshkumar021" target="_blank" rel="noopener" class="contact-card" id="github-card">
+            <div class="contact-card-icon github">
+              <i class="fab fa-github"></i>
+            </div>
+            <div class="contact-card-info">
+              <span class="contact-card-label">GitHub</span>
+              <span class="contact-card-value">github.com/ashutoshkumar021</span>
+            </div>
+            <i class="fas fa-arrow-right contact-card-arrow"></i>
+          </a>
+        </div>
+        <div class="contact-cta">
+          <a href="mailto:ashutoshkumar8701@gmail.com" class="btn btn-primary btn-lg">
+            <i class="fas fa-paper-plane"></i> Say Hello
+          </a>
+          <a href="Ashutosh_Kumar_Resume.pdf" download="Ashutosh_Kumar_Resume.pdf" class="btn btn-outline btn-lg" id="contact-resume-btn">
+            <i class="fas fa-download"></i> Download Resume
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <p>Designed &amp; Built by <strong>Ashutosh Kumar</strong></p>
+      <p class="footer-sub">Full-Stack Software Engineer · Bengaluru, India</p>
+    </div>
+    <div class="footer-social">
+      <a href="mailto:ashutoshkumar8701@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+      <a href="https://linkedin.com/in/ashutosh-kumar-21" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="https://github.com/ashutoshkumar021" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
+      <a href="Ashutosh_Kumar_Resume.pdf" download="Ashutosh_Kumar_Resume.pdf" aria-label="Download Resume"><i class="fas fa-download"></i></a>
+    </div>
+    <p class="footer-copy">© 2025 Ashutosh Kumar. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

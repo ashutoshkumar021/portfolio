@@ -1,0 +1,11 @@
+{
+    "name": "ashutosh-kumar-portfolio",
+    "version": "1.0.0",
+    "description": "Ashutosh Kumar – Full-Stack Software Engineer Portfolio",
+    "scripts": {
+        "start": "http-server . -p 3000 -o"
+    },
+    "devDependencies": {
+        "http-server": "^14.1.1"
+    }
+}
