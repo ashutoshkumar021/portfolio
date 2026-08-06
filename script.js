@@ -21,6 +21,7 @@ themeToggle.addEventListener('click', () => {
   html.setAttribute('data-theme', next);
   localStorage.setItem('portfolio-theme', next);
   updateThemeIcon(next);
+  window.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme: next } }));
 });
 
 function updateThemeIcon(theme) {
@@ -153,6 +154,7 @@ document.querySelectorAll('.skill-category').forEach(el => skillObserver.observe
 /* ─── Particle Canvas ─── */
 (function initParticles() {
   const canvas = document.getElementById('particles-canvas');
+  if (!canvas) return;
   const ctx = canvas.getContext('2d');
   let w, h, particles;
   const N = 65;
@@ -378,3 +380,269 @@ document.querySelectorAll('.badge-pill').forEach(pill => {
     setTimeout(() => { pill.style.transform = ''; }, 150);
   });
 });
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   THREE.JS 3D INTERACTIVE WEBGL ENGINE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+(function initThreeJS3DEngine() {
+  const canvas = document.getElementById('webgl-canvas-3d');
+  if (!canvas || typeof THREE === 'undefined') return;
+
+  // Scene, Camera, Renderer setup
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.z = 24;
+
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  // Lights
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+  scene.add(ambientLight);
+
+  const pointLight1 = new THREE.PointLight(0x6366f1, 2.5, 100);
+  pointLight1.position.set(15, 15, 15);
+  scene.add(pointLight1);
+
+  const pointLight2 = new THREE.PointLight(0x06b6d4, 2, 100);
+  pointLight2.position.set(-15, -15, -10);
+  scene.add(pointLight2);
+
+  // Sync 3D Lights with Theme
+  function update3DLights(theme) {
+    if (theme === 'light') {
+      ambientLight.intensity = 1.1;
+      pointLight1.color.setHex(0x4f46e5);
+      pointLight1.intensity = 3.0;
+      pointLight2.color.setHex(0x0284c7);
+    } else {
+      ambientLight.intensity = 0.6;
+      pointLight1.color.setHex(0x6366f1);
+      pointLight1.intensity = 2.5;
+      pointLight2.color.setHex(0x06b6d4);
+    }
+  }
+  update3DLights(document.documentElement.getAttribute('data-theme') || 'dark');
+  window.addEventListener('themeChanged', e => update3DLights(e.detail.theme));
+
+  // Group container for rotation
+  const mainGroup = new THREE.Group();
+  scene.add(mainGroup);
+
+  // 1. Cyber Core Object (Icosahedron + Wireframe Ring + Particles)
+  const coreGroup = new THREE.Group();
+  mainGroup.add(coreGroup);
+
+  const geom = new THREE.IcosahedronGeometry(6, 2);
+  const mat = new THREE.MeshPhongMaterial({
+    color: 0x6366f1,
+    emissive: 0x111122,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.35,
+    shininess: 100
+  });
+  const cyberMesh = new THREE.Mesh(geom, mat);
+  coreGroup.add(cyberMesh);
+
+  // Inner Core Sphere
+  const innerGeom = new THREE.IcosahedronGeometry(3.5, 1);
+  const innerMat = new THREE.MeshStandardMaterial({
+    color: 0x06b6d4,
+    roughness: 0.2,
+    metalness: 0.8,
+    wireframe: false
+  });
+  const innerMesh = new THREE.Mesh(innerGeom, innerMat);
+  coreGroup.add(innerMesh);
+
+  // Outer Torus Ring 1
+  const torusGeom = new THREE.TorusGeometry(8.5, 0.08, 16, 100);
+  const torusMat = new THREE.MeshBasicMaterial({ color: 0x8b5cf6, transparent: true, opacity: 0.6 });
+  const torusRing1 = new THREE.Mesh(torusGeom, torusMat);
+  torusRing1.rotation.x = Math.PI / 3;
+  coreGroup.add(torusRing1);
+
+  // Outer Torus Ring 2
+  const torusRing2 = new THREE.Mesh(torusGeom, new THREE.MeshBasicMaterial({ color: 0x06b6d4, transparent: true, opacity: 0.5 }));
+  torusRing2.rotation.y = Math.PI / 4;
+  coreGroup.add(torusRing2);
+
+  // Floating Particle Cloud
+  const particleCount = 400;
+  const pGeom = new THREE.BufferGeometry();
+  const positions = new Float32Array(particleCount * 3);
+  const pColors = new Float32Array(particleCount * 3);
+
+  for (let i = 0; i < particleCount * 3; i += 3) {
+    positions[i] = (Math.random() - 0.5) * 60;
+    positions[i + 1] = (Math.random() - 0.5) * 60;
+    positions[i + 2] = (Math.random() - 0.5) * 60;
+
+    pColors[i] = 0.38 + Math.random() * 0.2;     // R
+    pColors[i + 1] = 0.4 + Math.random() * 0.4;  // G
+    pColors[i + 2] = 0.95;                       // B
+  }
+  pGeom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  pGeom.setAttribute('color', new THREE.BufferAttribute(pColors, 3));
+
+  const pMat = new THREE.PointsMaterial({
+    size: 0.35,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.7,
+    blending: THREE.AdditiveBlending
+  });
+  const pointCloud = new THREE.Points(pGeom, pMat);
+  mainGroup.add(pointCloud);
+
+  // 2. Starfield Mode Object
+  const starfieldGroup = new THREE.Group();
+  starfieldGroup.visible = false;
+  mainGroup.add(starfieldGroup);
+
+  const starCount = 1200;
+  const starGeom = new THREE.BufferGeometry();
+  const starPos = new Float32Array(starCount * 3);
+  for (let i = 0; i < starCount * 3; i += 3) {
+    starPos[i] = (Math.random() - 0.5) * 120;
+    starPos[i + 1] = (Math.random() - 0.5) * 120;
+    starPos[i + 2] = (Math.random() - 0.5) * 120;
+  }
+  starGeom.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+  const starMat = new THREE.PointsMaterial({ size: 0.4, color: 0x38bdf8, transparent: true, opacity: 0.8 });
+  const starPoints = new THREE.Points(starGeom, starMat);
+  starfieldGroup.add(starPoints);
+
+  // 3. Grid Mode Object
+  const gridGroup = new THREE.Group();
+  gridGroup.visible = false;
+  mainGroup.add(gridGroup);
+
+  const gridHelper = new THREE.GridHelper(80, 40, 0x6366f1, 0x1e1e2d);
+  gridHelper.position.y = -10;
+  gridGroup.add(gridHelper);
+
+  // Mouse Interaction Smoothing
+  let targetMouseX = 0;
+  let targetMouseY = 0;
+  let mouseX = 0;
+  let mouseY = 0;
+
+  window.addEventListener('mousemove', e => {
+    targetMouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+    targetMouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+  }, { passive: true });
+
+  // Scroll Interaction
+  let scrollY = 0;
+  window.addEventListener('scroll', () => {
+    scrollY = window.scrollY;
+  }, { passive: true });
+
+  // Resize Handler
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+
+  // Animation Loop
+  function animate3D() {
+    requestAnimationFrame(animate3D);
+
+    // Smooth mouse lerp
+    mouseX += (targetMouseX - mouseX) * 0.05;
+    mouseY += (targetMouseY - mouseY) * 0.05;
+
+    // Core rotations
+    cyberMesh.rotation.x += 0.003;
+    cyberMesh.rotation.y += 0.005;
+    innerMesh.rotation.x -= 0.004;
+    innerMesh.rotation.y -= 0.006;
+    torusRing1.rotation.z += 0.008;
+    torusRing2.rotation.z -= 0.008;
+
+    pointCloud.rotation.y += 0.001;
+    starPoints.rotation.y += 0.0005;
+
+    // Parallax movement based on mouse & scroll
+    mainGroup.rotation.y = mouseX * 0.35 + (scrollY * 0.0003);
+    mainGroup.rotation.x = mouseY * 0.35;
+    mainGroup.position.y = -(scrollY * 0.005);
+
+    // Dynamic light movement
+    pointLight1.position.x = Math.sin(Date.now() * 0.001) * 20;
+    pointLight1.position.y = Math.cos(Date.now() * 0.0015) * 20;
+
+    renderer.render(scene, camera);
+  }
+  animate3D();
+
+  // Mode Switcher Controls Logic
+  const toggleBtn = document.getElementById('btn-3d-toggle');
+  const optionsMenu = document.getElementById('mode-options-3d');
+  const currentLabel = document.getElementById('current-3d-mode');
+
+  if (toggleBtn && optionsMenu) {
+    toggleBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      optionsMenu.classList.toggle('active');
+    });
+
+    document.addEventListener('click', () => {
+      optionsMenu.classList.remove('active');
+    });
+
+    optionsMenu.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const mode = btn.getAttribute('data-mode');
+        optionsMenu.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        if (mode === 'cyber') {
+          coreGroup.visible = true;
+          starfieldGroup.visible = false;
+          gridGroup.visible = false;
+          currentLabel.textContent = 'Cyber Core';
+        } else if (mode === 'starfield') {
+          coreGroup.visible = false;
+          starfieldGroup.visible = true;
+          gridGroup.visible = false;
+          currentLabel.textContent = 'Starfield Galaxy';
+        } else if (mode === 'grid') {
+          coreGroup.visible = false;
+          starfieldGroup.visible = false;
+          gridGroup.visible = true;
+          currentLabel.textContent = 'Matrix Grid';
+        }
+      });
+    });
+  }
+})();
+
+/* ─── 3D Card Tilt & Glare Spotlight Interaction ─── */
+document.querySelectorAll('[data-tilt]').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -12;
+    const rotateY = ((x - centerX) / centerX) * 12;
+
+    // Pass mouse coordinates to CSS glare spotlight
+    card.style.setProperty('--glare-x', `${x}px`);
+    card.style.setProperty('--glare-y', `${y}px`);
+
+    card.style.transform = `perspective(1200px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateZ(12px)`;
+  });
+
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+  });
+});
+
+
