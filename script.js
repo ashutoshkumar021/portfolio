@@ -914,64 +914,42 @@ document.querySelectorAll('[data-tilt]').forEach(card => {
     return anyMaleEnVoice || cachedVoices.find(v => v.lang.startsWith('en')) || cachedVoices[0];
   }
 
-  // Realistic Human Speech Synthesis with Emotional Pacing & Pauses
-  let currentUtterances = [];
-
+  // Smooth Natural Male Speech Synthesis (Normal Pacing, Zero Artificial Delays)
   function speakResponse(text) {
     if (!('speechSynthesis' in window)) return;
     stopSpeechSynthesis();
 
-    // Clean text formatting
+    // Clean text formatting for natural speech flow
     const cleanText = text
       .replace(/[*_#`]/g, '')
       .replace(/https?:\/\/\S+/g, 'link')
       .replace(/\s+/g, ' ')
       .trim();
 
-    // Break text into natural human speech clauses for expressive pacing & pauses
-    const clauses = cleanText.match(/[^.!?;,]+[.!?;,]?/g) || [cleanText];
+    const utterance = new SpeechSynthesisUtterance(cleanText);
     const maleVoice = getBestMaleVoice();
-
-    if (waveform) waveform.classList.add('speaking');
-
-    let index = 0;
-
-    function speakNextClause() {
-      if (index >= clauses.length) {
-        if (waveform) waveform.classList.remove('speaking');
-        setPipelineStep('gpt');
-        return;
-      }
-
-      const clauseText = clauses[index].trim();
-      if (!clauseText) {
-        index++;
-        speakNextClause();
-        return;
-      }
-
-      const utterance = new SpeechSynthesisUtterance(clauseText);
-      if (maleVoice) utterance.voice = maleVoice;
-
-      // Conversational Male Pitch & Pacing
-      utterance.rate = 0.94;  // Thoughtful, natural human speed
-      utterance.pitch = 0.97; // Deep male voice pitch
-
-      utterance.onend = () => {
-        index++;
-        // Micro-pause between thoughts (220ms pause for natural human breathing)
-        setTimeout(speakNextClause, 220);
-      };
-
-      utterance.onerror = () => {
-        index++;
-        speakNextClause();
-      };
-
-      window.speechSynthesis.speak(utterance);
+    if (maleVoice) {
+      utterance.voice = maleVoice;
     }
 
-    speakNextClause();
+    utterance.rate = 1.0;  // Standard natural human conversational speed
+    utterance.pitch = 1.0; // Natural warm male voice pitch
+
+    utterance.onstart = () => {
+      if (waveform) waveform.classList.add('speaking');
+    };
+
+    utterance.onend = () => {
+      if (waveform) waveform.classList.remove('speaking');
+      setPipelineStep('gpt');
+    };
+
+    utterance.onerror = () => {
+      if (waveform) waveform.classList.remove('speaking');
+      setPipelineStep('gpt');
+    };
+
+    window.speechSynthesis.speak(utterance);
   }
 
   function stopSpeechSynthesis() {
