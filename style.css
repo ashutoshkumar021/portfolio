@@ -486,58 +486,68 @@ img {
 
 .float-icon {
   position: absolute;
-  font-size: 1.8rem;
-  opacity: 0.15;
-  animation: float-drift 12s ease-in-out infinite;
-  color: var(--accent);
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  font-size: 1.5rem;
+  opacity: 0.88;
+  animation: float-drift 14s ease-in-out infinite;
+  color: var(--accent-3);
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), 0 0 15px rgba(99, 102, 241, 0.25);
+  backdrop-filter: blur(12px);
 }
 
 [data-theme="light"] .float-icon {
-  opacity: 0.12;
-  color: #4f46e5;
+  background: #ffffff;
+  border: 1px solid rgba(79, 70, 229, 0.28);
+  color: #4338ca;
+  opacity: 0.95;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.1), 0 0 15px rgba(79, 70, 229, 0.15);
 }
 
 .fi-1 {
-  top: 10%;
-  left: 2%;
+  top: 12%;
+  left: 1.5rem;
   animation-delay: 0s;
   animation-duration: 14s;
 }
 
 .fi-2 {
-  top: 18%;
-  right: 2%;
+  top: 15%;
+  right: 1.5rem;
   animation-delay: -2s;
   animation-duration: 11s;
 }
 
 .fi-3 {
-  top: 75%;
-  left: 2%;
+  top: 72%;
+  left: 1.5rem;
   animation-delay: -4s;
   animation-duration: 16s;
 }
 
 .fi-4 {
-  top: 80%;
-  right: 2%;
+  top: 78%;
+  right: 1.5rem;
   animation-delay: -6s;
   animation-duration: 13s;
 }
 
 .fi-5 {
-  top: 48%;
-  left: 1%;
+  top: 45%;
+  left: 1rem;
   animation-delay: -1s;
   animation-duration: 15s;
 }
 
 .fi-6 {
-  top: 50%;
-  right: 1%;
+  top: 48%;
+  right: 1rem;
   animation-delay: -3s;
   animation-duration: 12s;
 }

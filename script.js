@@ -391,7 +391,7 @@ document.querySelectorAll('.badge-pill').forEach(pill => {
   // Scene, Camera, Renderer setup
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-  camera.position.z = 24;
+  camera.position.z = 32; // Pushed back so 3D core does not overlap center text
 
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -409,29 +409,13 @@ document.querySelectorAll('.badge-pill').forEach(pill => {
   pointLight2.position.set(-15, -15, -10);
   scene.add(pointLight2);
 
-  // Sync 3D Lights with Theme
-  function update3DLights(theme) {
-    if (theme === 'light') {
-      ambientLight.intensity = 1.1;
-      pointLight1.color.setHex(0x4f46e5);
-      pointLight1.intensity = 3.0;
-      pointLight2.color.setHex(0x0284c7);
-    } else {
-      ambientLight.intensity = 0.6;
-      pointLight1.color.setHex(0x6366f1);
-      pointLight1.intensity = 2.5;
-      pointLight2.color.setHex(0x06b6d4);
-    }
-  }
-  update3DLights(document.documentElement.getAttribute('data-theme') || 'dark');
-  window.addEventListener('themeChanged', e => update3DLights(e.detail.theme));
-
   // Group container for rotation
   const mainGroup = new THREE.Group();
   scene.add(mainGroup);
 
   // 1. Cyber Core Object (Icosahedron + Wireframe Ring + Particles)
   const coreGroup = new THREE.Group();
+  coreGroup.position.z = -5; // Spatial depth offset
   mainGroup.add(coreGroup);
 
   const geom = new THREE.IcosahedronGeometry(6, 2);
@@ -523,6 +507,33 @@ document.querySelectorAll('.badge-pill').forEach(pill => {
   const gridHelper = new THREE.GridHelper(80, 40, 0x6366f1, 0x1e1e2d);
   gridHelper.position.y = -10;
   gridGroup.add(gridHelper);
+
+  // Sync 3D Lights & Starfield Colors with Theme
+  function update3DLights(theme) {
+    if (theme === 'light') {
+      ambientLight.intensity = 1.1;
+      pointLight1.color.setHex(0x4f46e5);
+      pointLight1.intensity = 3.0;
+      pointLight2.color.setHex(0x0284c7);
+      if (starMat) {
+        starMat.color.setHex(0x4338ca); // Deep indigo stars in Light Mode
+        starMat.size = 0.45;
+      }
+      mat.opacity = 0.2; // Soft translucent wireframe
+    } else {
+      ambientLight.intensity = 0.6;
+      pointLight1.color.setHex(0x6366f1);
+      pointLight1.intensity = 2.5;
+      pointLight2.color.setHex(0x06b6d4);
+      if (starMat) {
+        starMat.color.setHex(0x38bdf8); // Bright cyan stars in Dark Mode
+        starMat.size = 0.4;
+      }
+      mat.opacity = 0.35;
+    }
+  }
+  update3DLights(document.documentElement.getAttribute('data-theme') || 'dark');
+  window.addEventListener('themeChanged', e => update3DLights(e.detail.theme));
 
   // Mouse Interaction Smoothing
   let targetMouseX = 0;
@@ -848,7 +859,7 @@ document.querySelectorAll('[data-tilt]').forEach(card => {
     chatBox.scrollTop = chatBox.scrollHeight;
   }
 
-  // Realistic Neural Voice Selector
+  // Realistic Male Neural Voice Selector
   let cachedVoices = [];
   function loadVoices() {
     if ('speechSynthesis' in window) {
@@ -860,65 +871,101 @@ document.querySelectorAll('[data-tilt]').forEach(card => {
     window.speechSynthesis.onvoiceschanged = loadVoices;
   }
 
-  function getBestNaturalVoice() {
+  function getBestMaleVoice() {
     if (!cachedVoices.length) loadVoices();
     if (!cachedVoices.length) return null;
 
-    // Prioritize high-quality natural/neural AI voices
-    const naturalVoice = cachedVoices.find(v => 
-      v.name.includes('Natural') || 
-      v.name.includes('Online') || 
-      v.name.includes('Neural') || 
-      v.name.includes('Google US English') ||
-      v.name.includes('Microsoft Guy') ||
-      v.name.includes('Microsoft Aria') ||
-      v.name.includes('Microsoft Jenny') ||
-      v.name.includes('Samantha')
-    );
+    const femaleKeywords = ['jenny', 'aria', 'samantha', 'zira', 'victoria', 'susan', 'karen', 'veena', 'hazel', 'heera', 'female', 'woman'];
 
-    if (naturalVoice) return naturalVoice;
+    // 1. Top Tier Natural Male Neural Voices
+    const maleNeuralVoice = cachedVoices.find(v => {
+      const name = v.name.toLowerCase();
+      const isFemale = femaleKeywords.some(kw => name.includes(kw));
+      if (isFemale) return false;
+      return (
+        name.includes('guy') ||
+        name.includes('christopher') ||
+        name.includes('eric') ||
+        name.includes('ryan') ||
+        name.includes('mark') ||
+        name.includes('daniel') ||
+        name.includes('alex') ||
+        name.includes('george') ||
+        name.includes('david') ||
+        (name.includes('google') && name.includes('male'))
+      );
+    });
 
-    // Fallback to any English voice
-    const enVoice = cachedVoices.find(v => v.lang.startsWith('en'));
-    return enVoice || cachedVoices[0];
+    if (maleNeuralVoice) return maleNeuralVoice;
+
+    // 2. Fallback: Any English Voice that is NOT Female
+    const anyMaleEnVoice = cachedVoices.find(v => {
+      const name = v.name.toLowerCase();
+      const isFemale = femaleKeywords.some(kw => name.includes(kw));
+      return v.lang.startsWith('en') && !isFemale;
+    });
+
+    return anyMaleEnVoice || cachedVoices.find(v => v.lang.startsWith('en')) || cachedVoices[0];
   }
 
-  // Text-to-Speech (TTS) Voice Synthesis
+  // Realistic Human Speech Synthesis with Emotional Pacing & Pauses
+  let currentUtterances = [];
+
   function speakResponse(text) {
     if (!('speechSynthesis' in window)) return;
     stopSpeechSynthesis();
 
-    // Clean text formatting for natural vocal flow
+    // Clean text formatting
     const cleanText = text
       .replace(/[*_#`]/g, '')
       .replace(/https?:\/\/\S+/g, 'link')
       .replace(/\s+/g, ' ')
       .trim();
 
-    const utterance = new SpeechSynthesisUtterance(cleanText);
-    const voice = getBestNaturalVoice();
-    if (voice) {
-      utterance.voice = voice;
+    // Break text into natural human speech clauses for expressive pacing & pauses
+    const clauses = cleanText.match(/[^.!?;,]+[.!?;,]?/g) || [cleanText];
+    const maleVoice = getBestMaleVoice();
+
+    if (waveform) waveform.classList.add('speaking');
+
+    let index = 0;
+
+    function speakNextClause() {
+      if (index >= clauses.length) {
+        if (waveform) waveform.classList.remove('speaking');
+        setPipelineStep('gpt');
+        return;
+      }
+
+      const clauseText = clauses[index].trim();
+      if (!clauseText) {
+        index++;
+        speakNextClause();
+        return;
+      }
+
+      const utterance = new SpeechSynthesisUtterance(clauseText);
+      if (maleVoice) utterance.voice = maleVoice;
+
+      // Conversational Male Pitch & Pacing
+      utterance.rate = 0.94;  // Thoughtful, natural human speed
+      utterance.pitch = 0.97; // Deep male voice pitch
+
+      utterance.onend = () => {
+        index++;
+        // Micro-pause between thoughts (220ms pause for natural human breathing)
+        setTimeout(speakNextClause, 220);
+      };
+
+      utterance.onerror = () => {
+        index++;
+        speakNextClause();
+      };
+
+      window.speechSynthesis.speak(utterance);
     }
 
-    utterance.rate = 0.96;  // Conversational human cadence
-    utterance.pitch = 1.02; // Warm human voice pitch
-
-    utterance.onstart = () => {
-      if (waveform) waveform.classList.add('speaking');
-    };
-
-    utterance.onend = () => {
-      if (waveform) waveform.classList.remove('speaking');
-      setPipelineStep('gpt');
-    };
-
-    utterance.onerror = () => {
-      if (waveform) waveform.classList.remove('speaking');
-      setPipelineStep('gpt');
-    };
-
-    window.speechSynthesis.speak(utterance);
+    speakNextClause();
   }
 
   function stopSpeechSynthesis() {
