@@ -645,4 +645,220 @@ document.querySelectorAll('[data-tilt]').forEach(card => {
   });
 });
 
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   INTERACTIVE AI VOICE ASSISTANT ENGINE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+(function initAIVoiceAssistant() {
+  const fab = document.getElementById('btn-fab-voice');
+  const overlay = document.getElementById('voice-modal-overlay');
+  const closeBtn = document.getElementById('voice-modal-close');
+  const micBtn = document.getElementById('btn-voice-mic');
+  const micLabel = document.getElementById('mic-btn-label');
+  const micIcon = document.getElementById('mic-icon');
+  const chatBox = document.getElementById('voice-chat-box');
+  const textInput = document.getElementById('voice-text-input');
+  const sendBtn = document.getElementById('btn-voice-send');
+  const waveform = document.getElementById('voice-waveform');
+
+  // Pipeline flow step elements
+  const pipeStt = document.getElementById('pipe-stt');
+  const pipeGpt = document.getElementById('pipe-gpt');
+  const pipeTools = document.getElementById('pipe-tools');
+  const pipeTts = document.getElementById('pipe-tts');
+
+  if (!fab || !overlay || !closeBtn) return;
+
+  // Toggle Modal
+  fab.addEventListener('click', () => overlay.classList.add('active'));
+  closeBtn.addEventListener('click', () => {
+    overlay.classList.remove('active');
+    stopSpeechSynthesis();
+    stopMic();
+  });
+
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) {
+      overlay.classList.remove('active');
+      stopSpeechSynthesis();
+      stopMic();
+    }
+  });
+
+  // Speech Recognition (STT) Setup
+  let recognition = null;
+  let isListening = false;
+
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (SpeechRecognition) {
+    recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = 'en-US';
+
+    recognition.onstart = () => {
+      isListening = true;
+      micBtn.classList.add('listening');
+      micLabel.textContent = 'Listening...';
+      micIcon.className = 'fas fa-spinner fa-spin';
+      setPipelineStep('stt');
+    };
+
+    recognition.onresult = event => {
+      const transcript = event.results[0][0].transcript;
+      stopMic();
+      handleUserQuery(transcript);
+    };
+
+    recognition.onerror = () => {
+      stopMic();
+      appendChatMessage('assistant', 'I could not hear that clearly. Please try again or type your question below.');
+    };
+
+    recognition.onend = () => {
+      stopMic();
+    };
+  }
+
+  function startMic() {
+    if (recognition) {
+      try { recognition.start(); } catch (err) {}
+    } else {
+      appendChatMessage('assistant', 'Speech Recognition is not supported in this browser. Please type your question below!');
+    }
+  }
+
+  function stopMic() {
+    isListening = false;
+    if (micBtn) micBtn.classList.remove('listening');
+    if (micLabel) micLabel.textContent = 'Tap to Speak';
+    if (micIcon) micIcon.className = 'fas fa-microphone';
+    if (recognition) { try { recognition.stop(); } catch (err) {} }
+  }
+
+  micBtn.addEventListener('click', () => {
+    if (isListening) stopMic();
+    else startMic();
+  });
+
+  // Text Input Submission
+  sendBtn.addEventListener('click', () => submitTextInput());
+  textInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') submitTextInput();
+  });
+
+  function submitTextInput() {
+    const q = textInput.value.trim();
+    if (!q) return;
+    textInput.value = '';
+    handleUserQuery(q);
+  }
+
+  // Quick Prompt Pills
+  document.querySelectorAll('.voice-prompt-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      const prompt = pill.getAttribute('data-prompt');
+      handleUserQuery(prompt);
+    });
+  });
+
+  // Pipeline Stage Highlighting
+  function setPipelineStep(step) {
+    [pipeStt, pipeGpt, pipeTools, pipeTts].forEach(el => el && el.classList.remove('active'));
+    if (step === 'stt' && pipeStt) pipeStt.classList.add('active');
+    if (step === 'gpt' && pipeGpt) pipeGpt.classList.add('active');
+    if (step === 'tools' && pipeTools) pipeTools.classList.add('active');
+    if (step === 'tts' && pipeTts) pipeTts.classList.add('active');
+  }
+
+  // Knowledge Base Response Engine
+  function handleUserQuery(query) {
+    appendChatMessage('user', query);
+    setPipelineStep('gpt');
+
+    setTimeout(() => {
+      setPipelineStep('tools');
+
+      setTimeout(() => {
+        const response = generateAIResponse(query);
+        appendChatMessage('assistant', response);
+        setPipelineStep('tts');
+        speakResponse(response);
+      }, 450);
+    }, 400);
+  }
+
+  function generateAIResponse(q) {
+    const text = q.toLowerCase();
+
+    if (text.includes('exp') || text.includes('techfino') || text.includes('work') || text.includes('role')) {
+      return "Ashutosh is a Software Engineer at TechFino Capital in Bengaluru, building production Loan Management Systems in Node.js, Express, and React. He reduced manual HR effort by 85% via automated bulk ingestion pipelines!";
+    }
+    if (text.includes('bank') || text.includes('api') || text.includes('au bank') || text.includes('godrej') || text.includes('razorpay')) {
+      return "Ashutosh has integrated key financial APIs including Godrej Finance, Credit Saison, AU Small Finance Bank for virtual accounts, and Razorpay for real-time bank verification & NACH mandate registrations.";
+    }
+    if (text.includes('stack') || text.includes('skill') || text.includes('technolog') || text.includes('language')) {
+      return "Ashutosh's technical arsenal includes Node.js, Express.js, TypeScript, React.js, Angular, Python FastAPI, MySQL, MongoDB, AWS EC2/S3, Docker, and Swagger/OpenAPI.";
+    }
+    if (text.includes('contact') || text.includes('email') || text.includes('phone') || text.includes('reach') || text.includes('hire')) {
+      return "You can contact Ashutosh directly via email at ashutoshkumar8701@gmail.com, call +91-8797994427, or connect on LinkedIn at linkedin.com/in/ashutosh-kumar21!";
+    }
+    if (text.includes('project') || text.includes('watchhub') || text.includes('mailblast') || text.includes('spendwise')) {
+      return "Ashutosh has built 5 major production projects including WatchHub (React streaming app), MailBlast (bulk email engine), SpendWise (Angular expense tracker), and LoanFlow Engine (FastAPI underwriting pipeline).";
+    }
+
+    return `Thank you for asking! Ashutosh is a Full-Stack Software Engineer specializing in fintech backend architectures, Node.js, TypeScript, React, and Python FastAPI. Feel free to explore his projects or download his resume!`;
+  }
+
+  function appendChatMessage(sender, text) {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = `chat-message ${sender}`;
+
+    const icon = document.createElement('i');
+    icon.className = sender === 'assistant' ? 'fas fa-robot msg-icon' : 'fas fa-user msg-icon';
+
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'msg-content';
+    contentDiv.innerHTML = `<p>${text}</p>`;
+
+    msgDiv.appendChild(icon);
+    msgDiv.appendChild(contentDiv);
+    chatBox.appendChild(msgDiv);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
+
+  // Text-to-Speech (TTS) Voice Synthesis
+  function speakResponse(text) {
+    if (!('speechSynthesis' in window)) return;
+    stopSpeechSynthesis();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 1.02;
+    utterance.pitch = 1.0;
+
+    utterance.onstart = () => {
+      if (waveform) waveform.classList.add('speaking');
+    };
+
+    utterance.onend = () => {
+      if (waveform) waveform.classList.remove('speaking');
+      setPipelineStep('gpt');
+    };
+
+    utterance.onerror = () => {
+      if (waveform) waveform.classList.remove('speaking');
+      setPipelineStep('gpt');
+    };
+
+    window.speechSynthesis.speak(utterance);
+  }
+
+  function stopSpeechSynthesis() {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+    if (waveform) waveform.classList.remove('speaking');
+  }
+})();
+
+
 

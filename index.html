@@ -762,6 +762,49 @@
           </div>
         </div>
 
+        <!-- Project 6: VoxAI Assistant Pipeline -->
+        <div class="project-card tilt-card reveal" data-tilt>
+          <div class="project-card-glow voice"></div>
+          <div class="project-top">
+            <div class="project-icon-wrap voice">
+              <i class="fas fa-microphone-alt"></i>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/ashutoshkumar021" target="_blank" rel="noopener" title="View Code on GitHub" aria-label="GitHub Repository" class="project-link-btn">
+                <i class="fab fa-github"></i>
+                <span class="project-link-tooltip">GitHub</span>
+              </a>
+            </div>
+          </div>
+          <div class="project-header-info">
+            <h3 class="project-title">VoxAI Assistant Engine</h3>
+            <span class="project-category-badge">Voice AI &amp; FastAPI</span>
+          </div>
+          <p class="project-subtitle">Real-Time Speech-to-Text &amp; Voice Synthesis Pipeline</p>
+          <p class="project-desc">
+            An end-to-end multi-modal voice AI agent architecture. Converts user voice into text via <strong>Speech-to-Text (STT)</strong>, processes context using <strong>GPT Intelligence</strong>, executes database queries &amp; <strong>REST API tool calls</strong>, and synthesizes low-latency voice responses via <strong>Text-to-Speech (TTS)</strong>.
+          </p>
+          <div class="project-features">
+            <span><i class="fas fa-microphone"></i> Speech-to-Text (STT) Stream</span>
+            <span><i class="fas fa-brain"></i> GPT Agent Orchestration</span>
+            <span><i class="fas fa-database"></i> DB &amp; REST API Tool Calling</span>
+            <span><i class="fas fa-volume-up"></i> Neural Text-to-Speech (TTS)</span>
+          </div>
+          <div class="project-stack">
+            <span>Python</span>
+            <span>FastAPI</span>
+            <span>OpenAI / LLM</span>
+            <span>STT / TTS</span>
+            <span>REST API</span>
+          </div>
+          <div class="project-footer">
+            <span class="project-date"><i class="fas fa-robot"></i> Multi-Modal Voice Agent</span>
+            <a href="https://github.com/ashutoshkumar021" target="_blank" rel="noopener" class="btn btn-ghost btn-xs">
+              <i class="fab fa-github"></i> View Code
+            </a>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -886,6 +929,81 @@
       </div>
     </div>
   </section>
+
+  <!-- Live Interactive AI Voice Assistant Widget -->
+  <div class="voice-assistant-fab" id="voice-assistant-fab">
+    <div class="fab-pulse-ring"></div>
+    <button class="btn-fab-voice" id="btn-fab-voice" aria-label="Open AI Voice Assistant">
+      <i class="fas fa-microphone-alt"></i>
+    </button>
+    <span class="fab-tooltip">Talk to AI Assistant</span>
+  </div>
+
+  <!-- AI Voice Assistant Modal -->
+  <div class="voice-modal-overlay" id="voice-modal-overlay">
+    <div class="voice-modal-card tilt-card" id="voice-modal-card">
+      <button class="voice-modal-close" id="voice-modal-close" aria-label="Close Assistant">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <div class="voice-modal-header">
+        <div class="assistant-avatar">
+          <i class="fas fa-robot"></i>
+          <span class="avatar-status-dot"></span>
+        </div>
+        <div>
+          <h3>Ashutosh's AI Voice Assistant</h3>
+          <p class="assistant-subtitle">GPT Voice Pipeline &bull; STT &bull; TTS &bull; API Tools</p>
+        </div>
+      </div>
+
+      <!-- Live Voice Pipeline Flow Diagram -->
+      <div class="voice-pipeline-diagram">
+        <div class="pipeline-step" id="pipe-stt"><i class="fas fa-microphone"></i> STT</div>
+        <div class="pipeline-arrow">&rarr;</div>
+        <div class="pipeline-step active" id="pipe-gpt"><i class="fas fa-brain"></i> GPT-5.5</div>
+        <div class="pipeline-arrow">&rarr;</div>
+        <div class="pipeline-step" id="pipe-tools"><i class="fas fa-database"></i> DB / API</div>
+        <div class="pipeline-arrow">&rarr;</div>
+        <div class="pipeline-step" id="pipe-tts"><i class="fas fa-volume-up"></i> TTS Voice</div>
+      </div>
+
+      <!-- Live Audio Waveform Animation -->
+      <div class="voice-waveform" id="voice-waveform">
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
+      </div>
+
+      <!-- Chat Container -->
+      <div class="voice-chat-box" id="voice-chat-box">
+        <div class="chat-message assistant">
+          <i class="fas fa-robot msg-icon"></i>
+          <div class="msg-content">
+            <p>Hello! I am Ashutosh's AI Voice Assistant. Tap the microphone or select a topic below to speak with me!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Prompt Pills -->
+      <div class="voice-prompts">
+        <button class="voice-prompt-pill" data-prompt="Tell me about Ashutosh's experience at TechFino Capital">🏢 Experience</button>
+        <button class="voice-prompt-pill" data-prompt="What banking APIs has Ashutosh integrated?">🏦 Bank APIs</button>
+        <button class="voice-prompt-pill" data-prompt="What is Ashutosh's main technical stack?">💻 Tech Stack</button>
+        <button class="voice-prompt-pill" data-prompt="How can I contact Ashutosh?">📬 Contact</button>
+      </div>
+
+      <!-- Control Bar -->
+      <div class="voice-control-bar">
+        <button class="btn-voice-mic" id="btn-voice-mic">
+          <i class="fas fa-microphone" id="mic-icon"></i>
+          <span id="mic-btn-label">Tap to Speak</span>
+        </button>
+        <div class="voice-text-input-wrap">
+          <input type="text" id="voice-text-input" placeholder="Type question for AI..." />
+          <button id="btn-voice-send"><i class="fas fa-paper-plane"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Footer -->
   <footer class="footer">
