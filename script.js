@@ -668,19 +668,41 @@ document.querySelectorAll('[data-tilt]').forEach(card => {
 
   if (!fab || !overlay || !closeBtn) return;
 
-  // Toggle Modal
+  // Reset & Clear Chat Box
+  function clearChatBox() {
+    if (!chatBox) return;
+    chatBox.innerHTML = `
+      <div class="chat-message assistant">
+        <i class="fas fa-robot msg-icon"></i>
+        <div class="msg-content">
+          <p>Hello! I am Ashutosh's AI Voice Assistant. Tap the microphone or select a topic below to speak with me!</p>
+        </div>
+      </div>
+    `;
+    setPipelineStep('gpt');
+  }
+
+  // Toggle Modal & Clear Chat on Close
   fab.addEventListener('click', () => overlay.classList.add('active'));
-  closeBtn.addEventListener('click', () => {
+  
+  function closeModal() {
     overlay.classList.remove('active');
     stopSpeechSynthesis();
     stopMic();
-  });
+    clearChatBox();
+  }
+
+  closeBtn.addEventListener('click', closeModal);
 
   overlay.addEventListener('click', e => {
     if (e.target === overlay) {
-      overlay.classList.remove('active');
-      stopSpeechSynthesis();
-      stopMic();
+      closeModal();
+    }
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && overlay.classList.contains('active')) {
+      closeModal();
     }
   });
 
@@ -826,14 +848,61 @@ document.querySelectorAll('[data-tilt]').forEach(card => {
     chatBox.scrollTop = chatBox.scrollHeight;
   }
 
+  // Realistic Neural Voice Selector
+  let cachedVoices = [];
+  function loadVoices() {
+    if ('speechSynthesis' in window) {
+      cachedVoices = window.speechSynthesis.getVoices();
+    }
+  }
+  loadVoices();
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+  }
+
+  function getBestNaturalVoice() {
+    if (!cachedVoices.length) loadVoices();
+    if (!cachedVoices.length) return null;
+
+    // Prioritize high-quality natural/neural AI voices
+    const naturalVoice = cachedVoices.find(v => 
+      v.name.includes('Natural') || 
+      v.name.includes('Online') || 
+      v.name.includes('Neural') || 
+      v.name.includes('Google US English') ||
+      v.name.includes('Microsoft Guy') ||
+      v.name.includes('Microsoft Aria') ||
+      v.name.includes('Microsoft Jenny') ||
+      v.name.includes('Samantha')
+    );
+
+    if (naturalVoice) return naturalVoice;
+
+    // Fallback to any English voice
+    const enVoice = cachedVoices.find(v => v.lang.startsWith('en'));
+    return enVoice || cachedVoices[0];
+  }
+
   // Text-to-Speech (TTS) Voice Synthesis
   function speakResponse(text) {
     if (!('speechSynthesis' in window)) return;
     stopSpeechSynthesis();
 
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 1.02;
-    utterance.pitch = 1.0;
+    // Clean text formatting for natural vocal flow
+    const cleanText = text
+      .replace(/[*_#`]/g, '')
+      .replace(/https?:\/\/\S+/g, 'link')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    const voice = getBestNaturalVoice();
+    if (voice) {
+      utterance.voice = voice;
+    }
+
+    utterance.rate = 0.96;  // Conversational human cadence
+    utterance.pitch = 1.02; // Warm human voice pitch
 
     utterance.onstart = () => {
       if (waveform) waveform.classList.add('speaking');
