@@ -596,6 +596,9 @@ document.querySelectorAll('.badge-pill').forEach(pill => {
   const optionsMenu = document.getElementById('mode-options-3d');
   const currentLabel = document.getElementById('current-3d-mode');
 
+  const floatIcons = document.querySelector('.hero-float-icons');
+  if (floatIcons) floatIcons.style.display = 'none';
+
   if (toggleBtn && optionsMenu) {
     toggleBtn.addEventListener('click', e => {
       e.stopPropagation();
@@ -616,17 +619,20 @@ document.querySelectorAll('.badge-pill').forEach(pill => {
           coreGroup.visible = true;
           starfieldGroup.visible = false;
           gridGroup.visible = false;
-          currentLabel.textContent = 'Cyber Core';
+          if (currentLabel) currentLabel.textContent = 'Cyber Core';
+          if (floatIcons) floatIcons.style.display = 'none';
         } else if (mode === 'starfield') {
           coreGroup.visible = false;
           starfieldGroup.visible = true;
           gridGroup.visible = false;
-          currentLabel.textContent = 'Starfield Galaxy';
+          if (currentLabel) currentLabel.textContent = 'Starfield Galaxy';
+          if (floatIcons) floatIcons.style.display = 'block';
         } else if (mode === 'grid') {
           coreGroup.visible = false;
           starfieldGroup.visible = false;
           gridGroup.visible = true;
-          currentLabel.textContent = 'Matrix Grid';
+          if (currentLabel) currentLabel.textContent = 'Matrix Grid';
+          if (floatIcons) floatIcons.style.display = 'none';
         }
       });
     });
